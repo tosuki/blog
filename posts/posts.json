@@ -5,7 +5,7 @@
     "file": "database/db-concepts.md",
     "summary": "Uma visão geral sobre os fundamentos de armazenamento de dados, SGBDs e tipos de bancos.",
     "next_file": "database/modelo-conceitual.md",
-    "next_label": "Latex"
+    "next_label": "Modelo Conceitual"
   },
   {
     "title": "A Matemática do Sangue (Suporte LaTeX)",
