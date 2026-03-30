@@ -85,7 +85,7 @@ $$
 f(x) = (0.5 + 0.12137)x = 0.62137x
 $$
 
-Dessa forma, refinamos o preditor para alcançar uma precisão maior. De forma geral, os preditores funcionam assim e servem de base para a construção de classificadores e, futuramente, redes neurais. Eles são úteis para identificar padrões corretos. 
+Dessa forma, refinamos o preditor para alcançar uma precisão maior. De forma geral, os preditores funcionam assim e servem de base para a construção de classificadores e, futuramente, redes neurais. Eles são úteis para identificar padrões corretos.
 
 Considere esta situação: seu amigo lhe entrega um cubo de 2 cm, mas o local onde o cubo deve entrar tem exatamente 1,5 cm. Se você criar um preditor (uma função linear) que relacione o tamanho do cubo com o do buraco, poderá identificar qual encaixe é o correto. Em escala massiva, redes neurais utilizam esse princípio para parametrização.
 
@@ -119,3 +119,126 @@ $$
 Onde $x_1$ é a altura e $x_2$ é a idade.
 
 Ao aplicarmos exemplos reais (como um homem de 18 anos com 1,77 m, que deve resultar em $z$ tendendo a 1), podemos ajustar os coeficientes $a$ e $b$ através do processo de erro e refinamento que vimos anteriormente.
+
+Primeiro vamos escolher um coeficiente aleatório, com o propósito de achar nossa função linear que tem relação com o erro (o quanto falta pra ter o valor certo):
+
+$$
+a=0.5\\
+b=0.5\\
+z = (x_1 * 0.5) - (x*2 * 0.5)
+$$
+Sabendo que z tem que dar 1, ele obrigatoriamente tem que ser maior ou igual a 6. Portanto:
+
+$$
+sigmoid_function((1.77 * 0.5) - (18 * 0.5)) \geq 1
+$$
+
+Obviamente não iremos calcular isso na mão, ao invés disso, iremos essa função em C.
+
+Primeiro vamos implementar nosso mini script pra receber uma entrada x e aplicar a sigmoid function:
+```c
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+double sigmoid(double x) { return 1 / (1 + pow(2.718, -x)); }
+int main(int argc, char **argv) {
+  if (argc != 2) {
+    printf("Missing arguments!\n");
+    exit(0);
+  }
+
+  printf("%f\n", sigmoid(atof(argv[1])));
+
+  return 0;
+}
+```
+
+Em seguida, vamos implementar nossa função linear:
+```c
+//classifier.c
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+double sigmoid(double x) { return 1 / (1 + pow(2.718, -x)); }
+
+double get_height_classification(double a, double b, double height, int age) {
+  double x = (height * a) - (age * b);
+  return sigmoid(x);
+}
+
+typedef struct param {
+  char* name;
+  double value;
+} t_param;
+
+int get_parameter(int argc, char** argv, t_param* param) {
+  for (int i = 1; i < argc - 1; i++) {
+    if (strcmp(argv[i], param->name) == 0) {
+      param->value = atof(argv[i + 1]);
+      return 1;
+    }
+  }
+  return 0;
+}
+
+int main(int argc, char **argv) {
+  t_param a_param = {"--a", 0};
+  t_param b_param = {"--b", 0};
+
+  t_param height = {"--height", 0};
+  t_param age = {"--age", 0};
+
+  int found_params[4] = {
+    get_parameter(argc, argv, &a_param),
+    get_parameter(argc, argv, &b_param),
+    get_parameter(argc, argv, &height),
+    get_parameter(argc, argv, &age)
+  };
+
+  for (int i = 0; i < 4; i++) {
+    if (found_params[i] == 0) {
+      printf("Missing parameter: %s\n", (i == 0) ? a_param.name : (i == 1) ? b_param.name : (i == 2) ? height.name : age.name);
+      exit(0);
+    }
+  }
+
+  
+
+  printf("%f\n", get_height_classification(a_param.value, b_param.value, height.value, (int)age.value));
+
+  return 0;
+}
+```
+Vamos compilar nossa aplicação:
+```bash
+gcc classifier.c --lm -o classifier
+```
+
+Agora se usarmos:
+```bash
+./classifier --a 2 --b 2 --height 1.78 --age 18
+```
+
+Agora temos o que precisamos pra refinar nossa função linear sem ter que fazer calculos absurdos e repetitivos.
+
+Lembrando que nosso exemplo é o seguinte:
+1,77 de altura e 18 anos = alto = 1
+
+Portanto, vamos usar 0,5 como peso pra a e b:
+```bash
+./sigmoid --a 0.5 --b 0.5 --height 1.78 --age 18
+0.000301
+```
+
+Poderiamos alterar o coeficiente a e b de forma aleatória até achar os valores corretos (chamamos isso de solução por exaustão). No entanto, isso está longe de ser eficiente. Por mais que computadores consigam fazer isso sem cansar, isso ainda tem um custo de processamento. Portanto, é interessante ajustar os coeficientes de forma inteligente e para isso, podemos achar uma função linear que relaciona a distancia do quanto nós estamos do valor que queremos.
+
+Sabemos que queremos que $z = 1$. Portanto:
+$$
+E = 1 - 0.000301
+$$
+Agora você pode estar se perguntando o que isso significa. Isso é a distância que estamos do valor que queremos. Dessa forma, podemos ter um feedback em relação ao quanto temos que ajustar os nossos coeficientes.
+
+**TO DO:** Aprender derivada pra continuar isso aqui
