@@ -30,6 +30,12 @@
     "post_url": "post.html?file=database/db-concepts.md"
   },
   {
+    "src": "./assets/img/sigmoid_function.png",
+    "title": "sigmoid_function.png",
+    "post": "Predictors e Classificadores: A Base da IA",
+    "post_url": "post.html?file=ai/predictor.md"
+  },
+  {
     "src": "./assets/img/modelo-conceitual-exemplo-sem-cardinalidade.png",
     "title": "modelo-conceitual-exemplo-sem-cardinalidade.png",
     "post": "Modelo Conceitual - Bancos de Dados",

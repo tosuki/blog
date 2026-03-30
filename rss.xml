@@ -5,9 +5,16 @@
   <link>https://tosuki.github.io/blog/</link>
   <description>Um blog estático minimalista, focado em performance e estética Gótica/Vitoriana.</description>
   <language>pt-br</language>
-  <lastBuildDate>Mon, 30 Mar 2026 03:10:18 GMT</last_build_date>
+  <lastBuildDate>Mon, 30 Mar 2026 03:20:48 GMT</last_build_date>
   <atom:link href="https://tosuki.github.io/blog/rss.xml" rel="self" type="application/rss+xml" />
   
+    <item>
+      <title>Predictors e Classificadores: A Base da IA</title>
+      <link>https://tosuki.github.io/blog/post.html?file=ai/predictor.md</link>
+      <guid isPermaLink="true">https://tosuki.github.io/blog/post.html?file=ai/predictor.md</guid>
+      <pubDate>Mon, 30 Mar 2026 03:00:00 GMT</pubDate>
+      <description><![CDATA[Uma introdução técnica sobre como computadores usam funções lineares e regressão para prever dados e classificar informações.]]></description>
+    </item>
     <item>
       <title>Conceitos Básicos de Bancos de Dados</title>
       <link>https://tosuki.github.io/blog/post.html?file=database/db-concepts.md</link>
