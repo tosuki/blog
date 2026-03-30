@@ -24,7 +24,6 @@
 ## Modelo conceitual
 
 O modelo conceitual é a etapa antecessora da implementação e estruturação direta no SGBD escolhido (PostgreSQL, MySQL...). Ele consiste na estruturação abstrata das entidades e de como elas se relacionam no seu domínio de negócio (regras de negócio).
-
 <p align="center">
 <img src="/posts/database/img/modelo-conceitual.png" alt="Modelo Conceitual"/>
 </p>
