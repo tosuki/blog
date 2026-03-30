@@ -2,15 +2,15 @@
   {
     "title": "Conceitos Básicos de Bancos de Dados",
     "date": "2026-03-29",
-    "file": "db-concepts.md",
+    "file": "database/db-concepts.md",
     "summary": "Uma visão geral sobre os fundamentos de armazenamento de dados, SGBDs e tipos de bancos.",
-    "next_file": "blood-math.md",
+    "next_file": "math/blood-math.md",
     "next_label": "Latex"
   },
   {
     "title": "A Matemática do Sangue (Suporte LaTeX)",
     "date": "2026-03-28",
-    "file": "blood-math.md",
+    "file": "math/blood-math.md",
     "summary": "Explorando as equações que regem a vida e a morte através de LaTeX."
   }
 ]

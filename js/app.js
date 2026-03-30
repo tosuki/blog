@@ -4,7 +4,7 @@
 
 // Theme Management
 function initTheme() {
-    const savedTheme = localStorage.getItem('theme') || 'dark';
+    const savedTheme = localStorage.getItem('theme') || 'light';
     document.documentElement.setAttribute('data-theme', savedTheme);
     updateThemeIcon(savedTheme);
 }
@@ -81,9 +81,32 @@ async function loadPost(filename) {
         
         const markdown = await response.text();
         
-        // Use marked to parse markdown
+        // Use marked to parse markdown with path resolution
         if (typeof marked !== 'undefined') {
-            postContainer.innerHTML = marked.parse(markdown);
+            const renderer = new marked.Renderer();
+            const basePath = filename.includes('/') 
+                ? `posts/${filename.substring(0, filename.lastIndexOf('/') + 1)}` 
+                : 'posts/';
+
+            // Custom image renderer to fix relative paths
+            renderer.image = (href, title, text) => {
+                let src = href;
+                if (!href.startsWith('http') && !href.startsWith('/') && !href.startsWith('data:')) {
+                    src = basePath + href;
+                }
+                return `<img src="${src}" alt="${text || ''}" title="${title || ''}" style="max-width:100%;">`;
+            };
+
+            // Custom link renderer to fix relative paths (for assets like PDFs or other md files)
+            renderer.link = (href, title, text) => {
+                let url = href;
+                if (!href.startsWith('http') && !href.startsWith('/') && !href.startsWith('#')) {
+                    url = basePath + href;
+                }
+                return `<a href="${url}" title="${title || ''}">${text}</a>`;
+            };
+
+            postContainer.innerHTML = marked.parse(markdown, { renderer });
         } else {
             postContainer.innerHTML = '<pre>' + markdown + '</pre>';
         }

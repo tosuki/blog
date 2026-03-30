@@ -1,5 +1,7 @@
 # Okaabe's Chronicles - Blog Estático
 
+![Preview](assets/preview.gif)
+
 Este é um blog estático minimalista inspirado na estética de Alucard (Hellsing).
 
 ## Como funciona?
@@ -8,17 +10,20 @@ Este é um blog estático minimalista inspirado na estética de Alucard (Hellsin
 - **Temas:** Suporte a Dark/Light Mode através de variáveis CSS.
 
 ## Como adicionar um novo Post?
-1. Crie um novo arquivo `.md` dentro da pasta `/posts`.
-2. Edite o arquivo `/posts/posts.json` e adicione uma nova entrada para o seu post:
+1. Crie uma pasta para o seu post (ex: `/posts/meu-tema`).
+2. Adicione o arquivo `.md` dentro dessa pasta (ex: `/posts/meu-tema/meu-post.md`).
+3. Adicione os assets (imagens, etc.) na mesma pasta (ex: `/posts/meu-tema/img/foto.png`).
+4. No Markdown, referencie os assets de forma relativa: `![Legenda](img/foto.png)`.
+5. Edite o arquivo `/posts/posts.json` e adicione a nova entrada:
    ```json
    {
        "title": "Seu Título",
        "date": "2026-XX-XX",
-       "file": "seu-arquivo.md",
+       "file": "meu-tema/meu-post.md",
        "summary": "Um breve resumo do post."
    }
    ```
-3. Suba as alterações para o seu repositório Git.
+6. Suba as alterações para o seu repositório Git.
 
 ## Tecnologias Utilizadas
 - [Marked.js](https://marked.js.org/) para renderização de Markdown.
