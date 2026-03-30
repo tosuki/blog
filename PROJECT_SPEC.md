@@ -30,10 +30,13 @@ Um blog estático minimalista, focado em performance e estética "Gótica/Vitori
 - [x] Organização inicial dos posts existentes.
 - [x] Gif de preview no README.
 - [x] Sistema de Paginação com ordenação decrescente por data.
-- [ ] **Sistema de Busca/Filtro:** Filtrar posts por título ou categoria.
+- [x] Sistema de Busca por texto e Filtro por categoria.
+
+## 5. Próximos Passos (Backlog)
+- [x] **Sistema de Busca/Filtro:** Filtrar posts por título ou categoria.
 - [ ] **RSS Feed:** Gerar XML para leitores de RSS.
 
-## 6. Planejamento: Sistema de Paginação
+## 6. Planejamento: Sistema de Paginação (Concluído)
 ### Objetivo
 Evitar o carregamento excessivo de DOM na página inicial conforme o número de posts cresce.
 
@@ -49,3 +52,18 @@ Evitar o carregamento excessivo de DOM na página inicial conforme o número de 
    - Desabilitar botões se não houver página anterior/próxima.
    - Estilizar os botões seguindo a estética do blog (bordas vermelhas, fonte Cinzel).
 5. **Transição:** Adicionar um efeito suave de fade ao trocar de página.
+
+## 7. Planejamento: Sistema de Busca e Filtro (Concluído)
+### Objetivo
+Permitir que o usuário localize registros específicos rapidamente sem navegar por todas as páginas.
+
+### Estratégia de Implementação
+1. **Categorias Dinâmicas:** Extrair categorias automaticamente das pastas no `posts.json` (ex: "database/", "math/").
+2. **UI (index.html):**
+   - Barra de busca lateral ou acima da lista de posts.
+   - Lista de tags/categorias clicáveis.
+3. **Lógica (`js/app.js`):**
+   - **Filtro Combinado:** Aplicar busca por texto e filtro de categoria antes da paginação.
+   - **Parâmetros de URL:** `?q=texto` e `?cat=categoria`.
+   - **Feedback:** Mostrar "Exibindo X resultados para 'Y'" ou "Nenhum resultado para 'Z'".
+4. **UX:** Botão para limpar filtros e restaurar a lista completa.

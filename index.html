@@ -20,9 +20,22 @@
         <button id="theme-toggle" style="background:none; border:none; color:var(--primary-color); cursor:pointer; font-size:1.2rem; margin-top:10px;">☽</button>
     </header>
 
-    <main id="post-list">
-        <!-- Posts will be injected here -->
-        <div class="loading">Invocando registros...</div>
+    <main>
+        <section class="search-filter-container">
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="Pesquisar nos registros..." aria-label="Pesquisar">
+                <button id="search-btn">Buscar</button>
+            </div>
+            <div id="category-filters" class="category-filters">
+                <!-- Categories will be injected here -->
+            </div>
+            <div id="search-feedback" class="search-feedback"></div>
+        </section>
+
+        <div id="post-list">
+            <!-- Posts will be injected here -->
+            <div class="loading">Invocando registros...</div>
+        </div>
     </main>
 
     <footer>

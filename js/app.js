@@ -36,9 +36,15 @@ async function loadPostList() {
     const postListElement = document.getElementById('post-list');
     if (!postListElement) return;
 
-    // Get current page from URL
+    // Get parameters from URL
     const urlParams = new URLSearchParams(window.location.search);
     const currentPage = parseInt(urlParams.get('page')) || 1;
+    const searchQuery = urlParams.get('q') || '';
+    const categoryFilter = urlParams.get('cat') || '';
+
+    // Update search input value
+    const searchInput = document.getElementById('search-input');
+    if (searchInput) searchInput.value = searchQuery;
 
     try {
         const response = await fetch('posts/posts.json');
@@ -51,14 +57,42 @@ async function loadPostList() {
             return;
         }
 
-        // Sort posts by date (descending)
+        // 1. Sort posts by date (descending)
         posts.sort((a, b) => b.date.localeCompare(a.date));
 
-        // Pagination Logic
-        const totalPages = Math.ceil(posts.length / POSTS_PER_PAGE);
+        // 2. Extract Categories for UI
+        renderCategoryFilters(posts, categoryFilter);
+
+        // 3. Apply Filters (Search and Category)
+        let filteredPosts = posts;
+
+        if (categoryFilter) {
+            filteredPosts = filteredPosts.filter(post => 
+                post.file.startsWith(categoryFilter + '/')
+            );
+        }
+
+        if (searchQuery) {
+            const query = searchQuery.toLowerCase();
+            filteredPosts = filteredPosts.filter(post => 
+                post.title.toLowerCase().includes(query) || 
+                post.summary.toLowerCase().includes(query)
+            );
+        }
+
+        // Render Search Feedback
+        renderSearchFeedback(filteredPosts.length, searchQuery, categoryFilter);
+
+        if (filteredPosts.length === 0) {
+            postListElement.innerHTML = '<p>Nenhum registro encontrado para estes critérios.</p>';
+            return;
+        }
+
+        // 4. Pagination Logic
+        const totalPages = Math.ceil(filteredPosts.length / POSTS_PER_PAGE);
         const start = (currentPage - 1) * POSTS_PER_PAGE;
         const end = start + POSTS_PER_PAGE;
-        const paginatedPosts = posts.slice(start, end);
+        const paginatedPosts = filteredPosts.slice(start, end);
 
         let html = '';
         paginatedPosts.forEach(post => {
@@ -74,26 +108,105 @@ async function loadPostList() {
         
         // Add Pagination Controls
         if (totalPages > 1) {
+            const baseUrl = `index.html?q=${encodeURIComponent(searchQuery)}&cat=${encodeURIComponent(categoryFilter)}`;
             html += `
                 <div class="pagination-container">
                     ${currentPage > 1 
-                        ? `<a href="index.html?page=${currentPage - 1}" class="pagination-btn">← Anterior</a>` 
+                        ? `<a href="${baseUrl}&page=${currentPage - 1}" class="pagination-btn">← Anterior</a>` 
                         : '<span class="pagination-btn disabled">← Anterior</span>'}
                     
                     <span class="pagination-info">Página ${currentPage} de ${totalPages}</span>
                     
                     ${currentPage < totalPages 
-                        ? `<a href="index.html?page=${currentPage + 1}" class="pagination-btn">Próximo →</a>` 
+                        ? `<a href="${baseUrl}&page=${currentPage + 1}" class="pagination-btn">Próximo →</a>` 
                         : '<span class="pagination-btn disabled">Próximo →</span>'}
                 </div>
             `;
         }
         
         postListElement.innerHTML = html;
+
+        // Setup Event Listeners for Search
+        setupSearchListeners();
+
     } catch (error) {
         console.error('Error loading post list:', error);
         postListElement.innerHTML = `<p>Erro ao invocar registros: ${error.message}</p>`;
     }
+}
+
+function renderCategoryFilters(posts, activeCategory) {
+    const container = document.getElementById('category-filters');
+    if (!container) return;
+
+    // Extract unique categories from file paths (the first part of the path)
+    const categories = new Set();
+    posts.forEach(post => {
+        if (post.file.includes('/')) {
+            const cat = post.file.split('/')[0];
+            categories.add(cat);
+        }
+    });
+
+    let html = `<button class="category-btn ${!activeCategory ? 'active' : ''}" onclick="filterByCategory('')">Todos</button>`;
+    
+    categories.forEach(cat => {
+        html += `<button class="category-btn ${activeCategory === cat ? 'active' : ''}" onclick="filterByCategory('${cat}')">${cat.charAt(0).toUpperCase() + cat.slice(1)}</button>`;
+    });
+
+    container.innerHTML = html;
+}
+
+function renderSearchFeedback(count, query, category) {
+    const feedback = document.getElementById('search-feedback');
+    if (!feedback) return;
+
+    if (!query && !category) {
+        feedback.innerHTML = '';
+        return;
+    }
+
+    let message = `Encontrado(s) ${count} registro(s)`;
+    if (query) message += ` para "${query}"`;
+    if (category) message += ` na categoria "${category}"`;
+    
+    feedback.innerHTML = `${message}. <a href="index.html" style="color:var(--primary-color); cursor:pointer;">Limpar filtros</a>`;
+}
+
+function setupSearchListeners() {
+    const searchBtn = document.getElementById('search-btn');
+    const searchInput = document.getElementById('search-input');
+
+    if (searchBtn && !searchBtn.dataset.listener) {
+        searchBtn.addEventListener('click', () => {
+            const query = searchInput.value.trim();
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('q', query);
+            urlParams.set('page', '1'); // Reset to page 1
+            window.location.search = urlParams.toString();
+        });
+        searchBtn.dataset.listener = 'true';
+    }
+
+    if (searchInput && !searchInput.dataset.listener) {
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                searchBtn.click();
+            }
+        });
+        searchInput.dataset.listener = 'true';
+    }
+}
+
+function filterByCategory(cat) {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (cat) {
+        urlParams.set('cat', cat);
+    } else {
+        urlParams.delete('cat');
+    }
+    urlParams.set('page', '1'); // Reset to page 1
+    window.location.search = urlParams.toString();
 }
 
 // Function to load and render a specific post on post.html
