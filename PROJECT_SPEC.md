@@ -16,7 +16,7 @@ Um blog estático minimalista, focado em performance e estética "Gótica/Vitori
 
 ## 3. Padrões Técnicos
 - **Vanilla JavaScript:** Nenhuma biblioteca de UI (React/Vue).
-- **Markdown:** Renderizado via `marked.js` com suporte a caminhos relativos para assets locais.
+- **Markdown:** Renderizado via `marked.js`. **Nota importante:** Devido à configuração do servidor, o diretório base para resolução de caminhos de imagem (`src`) é sempre a raiz do projeto (./). Portanto, imagens em `assets/img/` devem ser referenciadas como `./img/` no Markdown, pois o servidor mapeia essa rota internamente. Além disso, links devem ser criados utilizando o elemento HTML `<a>` em vez da sintaxe Markdown `[texto](url)` ou `![]()`.
 - **LaTeX:** Suporte a fórmulas matemáticas via `KaTeX`.
 - **Temas:** Variáveis CSS (`--bg-color`, `--primary-color`, etc.) com alternância via `data-theme`. Default: `light`.
 - **Organização:** Posts devem ser agrupados em pastas se possuírem assets próprios.

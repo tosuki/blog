@@ -328,6 +328,11 @@ a:hover {
     margin-bottom: var(--spacing-sm);
 }
 
+.post-content ul {
+    list-style-position: inside;
+    margin-bottom: 1rem;
+}
+
 .post-content p {
     margin-bottom: 1rem;
 }

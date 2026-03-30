@@ -18,15 +18,15 @@
     "date": "2026-03-29",
     "file": "database/modelo-conceitual.md",
     "summary": "Entenda as entidades, relacionamentos e atributos no modelo conceitual de bancos de dados.",
-    "next_file": "math/blood-math.md",
-    "next_label": "Matemática do Sangue"
+    "next_file": "database/modelo-logico.md",
+    "next_label": "Modelo Lógico"
   },
   {
-    "title": "A Matemática do Sangue (Suporte LaTeX)",
-    "date": "2026-03-28",
-    "file": "math/blood-math.md",
-    "summary": "Explorando as equações que regem a vida e a morte através de LaTeX.",
-    "next_file": "ai/predictor.md",
-    "next_label": "Bases da IA"
+    "title": "Modelo Lógico - Bancos de Dados",
+    "date": "2026-03-29",
+    "file": "database/modelo-logico.md",
+    "summary": "Entenda as entidades, relacionamentos e atributos no modelo lógico de bancos de dados.",
+    "next_file": "database/modelo-fisico.md",
+    "next_label": "Modelo Físico"
   }
 ]

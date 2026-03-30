@@ -12,6 +12,12 @@
     "post_url": "post.html?file=database/modelo-conceitual.md"
   },
   {
+    "src": "./assets/img/modelo-logico@1.png",
+    "title": "modelo-logico@1.png",
+    "post": "Recurso Geral",
+    "post_url": "#"
+  },
+  {
     "src": "./assets/img/autorelacionamento.png",
     "title": "autorelacionamento.png",
     "post": "Modelo Conceitual - Bancos de Dados",
@@ -40,6 +46,12 @@
     "title": "modelo-conceitual-exemplo-sem-cardinalidade.png",
     "post": "Modelo Conceitual - Bancos de Dados",
     "post_url": "post.html?file=database/modelo-conceitual.md"
+  },
+  {
+    "src": "./assets/img/modelo-logico@2.png",
+    "title": "modelo-logico@2.png",
+    "post": "Recurso Geral",
+    "post_url": "#"
   },
   {
     "src": "./assets/img/atributo-composto.png",
