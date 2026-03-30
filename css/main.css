@@ -154,6 +154,13 @@ a:hover {
     margin-bottom: 1rem;
 }
 
+.post-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
 .post-content pre {
     background: #000;
     border-left: 3px solid var(--primary-color);
