@@ -12,8 +12,8 @@ Este é um blog estático minimalista inspirado na estética de Alucard (Hellsin
 ## Como adicionar um novo Post?
 1. Crie uma pasta para o seu post (ex: `/posts/meu-tema`).
 2. Adicione o arquivo `.md` dentro dessa pasta (ex: `/posts/meu-tema/meu-post.md`).
-3. Adicione os assets (imagens, etc.) na mesma pasta (ex: `/posts/meu-tema/img/foto.png`).
-4. No Markdown, referencie os assets de forma relativa: `![Legenda](img/foto.png)`.
+3. Adicione os assets visuais na pasta central `/assets/img/`.
+4. No Markdown, referencie as imagens de forma simples: `![Legenda](./img/foto.png)`. O blog redirecionará automaticamente para a pasta correta.
 5. Edite o arquivo `/posts/posts.json` e adicione a nova entrada:
    ```json
    {

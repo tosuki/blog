@@ -1,0 +1,44 @@
+[
+  {
+    "src": "./assets/img/cardinalidade.png",
+    "title": "cardinalidade.png",
+    "post": "Modelo Conceitual - Bancos de Dados",
+    "post_url": "post.html?file=database/modelo-conceitual.md"
+  },
+  {
+    "src": "./assets/img/entidade-atributos-1.png",
+    "title": "entidade-atributos-1.png",
+    "post": "Modelo Conceitual - Bancos de Dados",
+    "post_url": "post.html?file=database/modelo-conceitual.md"
+  },
+  {
+    "src": "./assets/img/autorelacionamento.png",
+    "title": "autorelacionamento.png",
+    "post": "Modelo Conceitual - Bancos de Dados",
+    "post_url": "post.html?file=database/modelo-conceitual.md"
+  },
+  {
+    "src": "./assets/img/relacionamento-identificador.png",
+    "title": "relacionamento-identificador.png",
+    "post": "Modelo Conceitual - Bancos de Dados",
+    "post_url": "post.html?file=database/modelo-conceitual.md"
+  },
+  {
+    "src": "./assets/img/modelo-conceitual.png",
+    "title": "modelo-conceitual.png",
+    "post": "Conceitos Básicos de Bancos de Dados",
+    "post_url": "post.html?file=database/db-concepts.md"
+  },
+  {
+    "src": "./assets/img/modelo-conceitual-exemplo-sem-cardinalidade.png",
+    "title": "modelo-conceitual-exemplo-sem-cardinalidade.png",
+    "post": "Modelo Conceitual - Bancos de Dados",
+    "post_url": "post.html?file=database/modelo-conceitual.md"
+  },
+  {
+    "src": "./assets/img/atributo-composto.png",
+    "title": "atributo-composto.png",
+    "post": "Modelo Conceitual - Bancos de Dados",
+    "post_url": "post.html?file=database/modelo-conceitual.md"
+  }
+]

@@ -227,18 +227,25 @@ async function loadPost(filename) {
         
         const markdown = await response.text();
         
+        // PRE-PROCESSING: Rewrite raw HTML <img> tags from ./img/ to assets/img/
+        // This handles <img src="./img/filename.png" ... /> tags
+        const processedMarkdown = markdown.replace(/<img[^>]+src=["'](?:\.\/)?img\/([^"']+)["'][^>]*>/g, (match, filename) => {
+            // Replace the src attribute content specifically
+            return match.replace(/src=["'](?:\.\/)?img\/([^"']+)["']/, `src="assets/img/$1"`);
+        });
+
         // Use marked to parse markdown with path resolution
         if (typeof marked !== 'undefined') {
             const renderer = new marked.Renderer();
-            const basePath = filename.includes('/') 
-                ? `posts/${filename.substring(0, filename.lastIndexOf('/') + 1)}` 
-                : 'posts/';
 
-            // Custom image renderer to fix relative paths
+            // Custom image renderer to fix paths and point to unified assets/img
             renderer.image = (href, title, text) => {
                 let src = href;
+                // If it's a relative path pointing to an img folder, redirect to assets/img
                 if (!href.startsWith('http') && !href.startsWith('/') && !href.startsWith('data:')) {
-                    src = basePath + href;
+                    const filename = href.split('/').pop();
+                    // All HTML files are at root, so assets/img/ is always the correct relative path
+                    src = `assets/img/${filename}`;
                 }
                 return `<img src="${src}" alt="${text || ''}" title="${title || ''}" style="max-width:100%;">`;
             };
@@ -252,9 +259,9 @@ async function loadPost(filename) {
                 return `<a href="${url}" title="${title || ''}">${text}</a>`;
             };
 
-            postContainer.innerHTML = marked.parse(markdown, { renderer });
+            postContainer.innerHTML = marked.parse(processedMarkdown, { renderer });
         } else {
-            postContainer.innerHTML = '<pre>' + markdown + '</pre>';
+            postContainer.innerHTML = '<pre>' + processedMarkdown + '</pre>';
         }
         
         // Render Floating Next Button if exists

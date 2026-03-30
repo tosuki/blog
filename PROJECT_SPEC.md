@@ -31,10 +31,9 @@ Um blog estático minimalista, focado em performance e estética "Gótica/Vitori
 - [x] Gif de preview no README.
 - [x] Sistema de Paginação com ordenação decrescente por data.
 - [x] Sistema de Busca por texto e Filtro por categoria.
-
-## 5. Próximos Passos (Backlog)
-- [x] **Sistema de Busca/Filtro:** Filtrar posts por título ou categoria.
-- [ ] **RSS Feed:** Gerar XML para leitores de RSS.
+- [x] **Post Linking (Próximo Registro):** Botão flutuante para navegar entre posts relacionados.
+- [x] **Galeria de Imagens:** Visualização em grid com Lightbox para assets do blog.
+- [x] **RSS Feed:** Geração de feed XML via script Python para leitores de RSS.
 
 ## 6. Planejamento: Sistema de Paginação (Concluído)
 ### Objetivo

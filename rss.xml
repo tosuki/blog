@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+  <title>Okaabe's Chronicles</title>
+  <link>https://tosuki.github.io/blog/</link>
+  <description>Um blog estático minimalista, focado em performance e estética Gótica/Vitoriana.</description>
+  <language>pt-br</language>
+  <lastBuildDate>Mon, 30 Mar 2026 03:10:18 GMT</last_build_date>
+  <atom:link href="https://tosuki.github.io/blog/rss.xml" rel="self" type="application/rss+xml" />
+  
+    <item>
+      <title>Conceitos Básicos de Bancos de Dados</title>
+      <link>https://tosuki.github.io/blog/post.html?file=database/db-concepts.md</link>
+      <guid isPermaLink="true">https://tosuki.github.io/blog/post.html?file=database/db-concepts.md</guid>
+      <pubDate>Sun, 29 Mar 2026 03:00:00 GMT</pubDate>
+      <description><![CDATA[Uma visão geral sobre os fundamentos de armazenamento de dados, SGBDs e tipos de bancos.]]></description>
+    </item>
+    <item>
+      <title>Modelo Conceitual - Bancos de Dados</title>
+      <link>https://tosuki.github.io/blog/post.html?file=database/modelo-conceitual.md</link>
+      <guid isPermaLink="true">https://tosuki.github.io/blog/post.html?file=database/modelo-conceitual.md</guid>
+      <pubDate>Sun, 29 Mar 2026 03:00:00 GMT</pubDate>
+      <description><![CDATA[Entenda as entidades, relacionamentos e atributos no modelo conceitual de bancos de dados.]]></description>
+    </item>
+    <item>
+      <title>A Matemática do Sangue (Suporte LaTeX)</title>
+      <link>https://tosuki.github.io/blog/post.html?file=math/blood-math.md</link>
+      <guid isPermaLink="true">https://tosuki.github.io/blog/post.html?file=math/blood-math.md</guid>
+      <pubDate>Sat, 28 Mar 2026 03:00:00 GMT</pubDate>
+      <description><![CDATA[Explorando as equações que regem a vida e a morte através de LaTeX.]]></description>
+    </item>
+</channel>
+</rss>
