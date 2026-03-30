@@ -2,6 +2,9 @@
  * Okaabe Blog - Application Logic
  */
 
+// Configuration
+const POSTS_PER_PAGE = 5;
+
 // Theme Management
 function initTheme() {
     const savedTheme = localStorage.getItem('theme') || 'light';
@@ -33,19 +36,32 @@ async function loadPostList() {
     const postListElement = document.getElementById('post-list');
     if (!postListElement) return;
 
+    // Get current page from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentPage = parseInt(urlParams.get('page')) || 1;
+
     try {
         const response = await fetch('posts/posts.json');
         if (!response.ok) throw new Error('Não foi possível carregar os registros.');
         
-        const posts = await response.json();
+        let posts = await response.json();
         
         if (posts.length === 0) {
             postListElement.innerHTML = '<p>O abismo está vazio no momento.</p>';
             return;
         }
 
+        // Sort posts by date (descending)
+        posts.sort((a, b) => b.date.localeCompare(a.date));
+
+        // Pagination Logic
+        const totalPages = Math.ceil(posts.length / POSTS_PER_PAGE);
+        const start = (currentPage - 1) * POSTS_PER_PAGE;
+        const end = start + POSTS_PER_PAGE;
+        const paginatedPosts = posts.slice(start, end);
+
         let html = '';
-        posts.forEach(post => {
+        paginatedPosts.forEach(post => {
             html += `
                 <div class="post-card">
                     <h2 class="post-title"><a href="post.html?file=${post.file}">${post.title}</a></h2>
@@ -55,6 +71,23 @@ async function loadPostList() {
                 </div>
             `;
         });
+        
+        // Add Pagination Controls
+        if (totalPages > 1) {
+            html += `
+                <div class="pagination-container">
+                    ${currentPage > 1 
+                        ? `<a href="index.html?page=${currentPage - 1}" class="pagination-btn">← Anterior</a>` 
+                        : '<span class="pagination-btn disabled">← Anterior</span>'}
+                    
+                    <span class="pagination-info">Página ${currentPage} de ${totalPages}</span>
+                    
+                    ${currentPage < totalPages 
+                        ? `<a href="index.html?page=${currentPage + 1}" class="pagination-btn">Próximo →</a>` 
+                        : '<span class="pagination-btn disabled">Próximo →</span>'}
+                </div>
+            `;
+        }
         
         postListElement.innerHTML = html;
     } catch (error) {
