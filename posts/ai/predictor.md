@@ -229,16 +229,73 @@ Lembrando que nosso exemplo é o seguinte:
 
 Portanto, vamos usar 0,5 como peso pra a e b:
 ```bash
-./sigmoid --a 0.5 --b 0.5 --height 1.78 --age 18
+./classifier --a 0.5 --b 0.5 --height 1.77 --age 18
 0.000301
 ```
 
-Poderiamos alterar o coeficiente a e b de forma aleatória até achar os valores corretos (chamamos isso de solução por exaustão). No entanto, isso está longe de ser eficiente. Por mais que computadores consigam fazer isso sem cansar, isso ainda tem um custo de processamento. Portanto, é interessante ajustar os coeficientes de forma inteligente e para isso, podemos achar uma função linear que relaciona a distancia do quanto nós estamos do valor que queremos.
+Poderiamos alterar o coeficiente a e b de forma aleatória até achar os valores corretos (chamamos isso de solução por exaustão). No entanto, isso está longe de ser eficiente. Por mais que computadores consigam fazer isso sem cansar, isso ainda tem um custo de processamento. Portanto, é interessante ajustar os coeficientes de forma inteligente.
 
-Sabemos que queremos que $z = 1$. Portanto:
-$$
-E = 1 - 0.000301
-$$
-Agora você pode estar se perguntando o que isso significa. Isso é a distância que estamos do valor que queremos. Dessa forma, podemos ter um feedback em relação ao quanto temos que ajustar os nossos coeficientes.
+### Ajuste Inteligente (Gradient Descent)
 
-**TO DO:** Aprender derivada pra continuar isso aqui
+Para ajustar os coeficientes $a$ e $b$ de forma eficiente, precisamos saber para qual "direção" devemos movê-los para diminuir o erro. É aqui que entra a **derivada**.
+
+A derivada da nossa função de erro nos diz a inclinação da curva em um determinado ponto. Se a inclinação é positiva, aumentar o peso aumentará o erro; se é negativa, aumentar o peso diminuirá o erro. 
+
+A fórmula para atualizar um peso é:
+$$
+\text{novo peso} = \text{peso antigo} + (\text{taxa de aprendizado} \cdot \text{erro} \cdot \text{derivada})
+$$
+
+Para a função sigmoide, a derivada em relação à sua saída é:
+$$
+\sigma'(z) = \sigma(z) \cdot (1 - \sigma(z))
+$$
+
+Vamos atualizar nosso script em C para incluir um loop de "treino" que ajusta os pesos automaticamente:
+
+```c
+//predictor.c
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+double sigmoid(double x) { return 1 / (1 + exp(-x)); }
+double sigmoid_derivative(double output) { return output * (1 - output); }
+
+double get_z(double a, double b, double height, int age) {
+  return (height * a) - (age * b);
+}
+
+// ... (função get_parameter para ler argumentos)
+
+int main(int argc, char **argv) {
+  // Pesos iniciais aleatórios (ou 0.5)
+  double a = 0.5, b = 0.5;
+  double height = 1.77, age = 18, target = 1.0;
+  double lr = 0.1; // Taxa de aprendizado
+
+  printf("Treinando...\n");
+  for (int i = 0; i < 1000; i++) {
+    double z = get_z(a, b, height, (int)age);
+    double output = sigmoid(z);
+    double error = target - output;
+
+    // Ajuste baseado na derivada (Backpropagation simplificado)
+    double d_sigmoid = sigmoid_derivative(output);
+    a += lr * error * d_sigmoid * height;
+    b += lr * error * d_sigmoid * (-age);
+
+    if (i % 200 == 0) printf("Iteração %d - Output: %f\n", i, output);
+  }
+
+  printf("\nValores Finais:\na: %f, b: %f\n", a, b);
+  printf("Predição final: %f\n", sigmoid(get_z(a, b, height, (int)age)));
+
+  return 0;
+}
+```
+
+Ao executar esse treino, o computador ajusta os valores de $a$ e $b$ até que a saída da função sigmoide seja o mais próxima possível de 1.
+
+Esse processo de calcular o erro, achar a derivada (o gradiente) e atualizar os pesos é o coração do que chamamos de **Deep Learning**. O que fizemos aqui foi criar um neurônio artificial solitário (um *perceptron*) e ensiná-lo a classificar um único dado. Em redes neurais reais, temos milhares desses neurônios conectados, mas o princípio fundamental de "erro e refinamento" continua o mesmo.
